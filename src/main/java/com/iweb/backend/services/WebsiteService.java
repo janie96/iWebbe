@@ -1,5 +1,6 @@
 package com.iweb.backend.services;
 
+import com.iweb.backend.dto.TypeResponse;
 import com.iweb.backend.dto.WebsiteResponse;
 import com.iweb.backend.models.User;
 import com.iweb.backend.models.Website;
@@ -55,6 +56,34 @@ public class WebsiteService {
         web.setType(w.getType());
         web.setContent(w.getContent());
         web.setUser(user);
+        Website website = websiteRepository.save(web);
+        w.setId(website.getId());
+        return w;
+    }
+
+    public TypeResponse saveType(TypeResponse t){
+
+        Website web = new Website();
+        User user = userRepository.findByI(t.getUser());
+        web.setType(t.getType());
+        web.setUser(user);
+        Website website = websiteRepository.save(web);
+        t.setId(website.getId());
+        return t;
+    }
+
+    public WebsiteResponse update(Long id,WebsiteResponse w){
+
+        Website web = websiteRepository.findByI(id);
+        if(web == null){
+            return null;
+        }
+        User user = userRepository.findByI(w.getUser());
+        web.setName(w.getName());
+        web.setType(w.getType());
+        web.setContent(w.getContent());
+        web.setUser(user);
+        web.setId(id);
         Website website = websiteRepository.save(web);
         w.setId(website.getId());
         return w;

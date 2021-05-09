@@ -1,6 +1,7 @@
 package com.iweb.backend.controllers;
 
 import com.iweb.backend.dto.MessageResponse;
+import com.iweb.backend.dto.TypeResponse;
 import com.iweb.backend.dto.WebsiteResponse;
 import com.iweb.backend.services.WebsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,25 @@ public class WebsiteController {
     @PostMapping("/web")
     public ResponseEntity<?> saveWebsite(@Valid @RequestBody WebsiteResponse w){
         WebsiteResponse web  = websiteService.save(w);
+        return ResponseEntity.ok(web);
+
+    }
+
+    @PostMapping("/web/type")
+    public ResponseEntity<?> saveType(@Valid @RequestBody TypeResponse t){
+        TypeResponse type  = websiteService.saveType(t);
+        return ResponseEntity.ok(type);
+
+    }
+
+    @PostMapping("/web/{id}")
+    public ResponseEntity<?> updateWebsite(@Valid @RequestBody WebsiteResponse w,@PathVariable("id") Long id){
+        if(id == null){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Id is invalid!"));
+        }
+        WebsiteResponse web  = websiteService.update(id,w);
         return ResponseEntity.ok(web);
 
     }
