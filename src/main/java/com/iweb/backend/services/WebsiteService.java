@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WebsiteService {
@@ -48,6 +49,15 @@ public class WebsiteService {
         return web;
     }
 
+    public String getWebsiteByName(String name){
+        String w = "NOT FOUND";
+        Optional<Website> website = websiteRepository.findByName(name);
+        if(website.isPresent()){
+            w = website.get().getContent();
+        }
+        return w;
+    }
+
     public WebsiteResponse save(WebsiteResponse w){
 
         Website web = new Website();
@@ -82,10 +92,11 @@ public class WebsiteService {
         web.setName(w.getName());
         web.setType(w.getType());
         web.setContent(w.getContent());
-        web.setUser(user);
-        web.setId(id);
-        Website website = websiteRepository.save(web);
-        w.setId(website.getId());
+//        web.setUser(user);
+//        web.setId(id);
+        websiteRepository.save(web);
+//        Website website = websiteRepository.save(web);
+        w.setId(web.getId());
         return w;
     }
 }

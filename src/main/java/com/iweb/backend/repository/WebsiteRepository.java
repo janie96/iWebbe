@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface WebsiteRepository extends JpaRepository<Website, Long> {
@@ -17,4 +18,6 @@ public interface WebsiteRepository extends JpaRepository<Website, Long> {
 
     @Query("SELECT w FROM Website w WHERE w.id = :id")
     Website findByI(@Param("id") Long id);
+
+    Optional<Website> findByName(String name);
 }
