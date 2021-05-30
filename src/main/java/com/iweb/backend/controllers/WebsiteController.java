@@ -6,15 +6,23 @@ import com.iweb.backend.dto.WebsiteResponse;
 import com.iweb.backend.services.WebsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class WebsiteController {
+
+    private final Path root = Paths.get("C:\\xampp\\htdocs\\image");
 
     @Autowired
     WebsiteService websiteService;
@@ -68,5 +76,20 @@ public class WebsiteController {
         return ResponseEntity.ok(web);
 
     }
+
+    @RequestMapping(value = "/imageUpload", method = RequestMethod.POST)
+    public ResponseEntity<?> saveImage(@RequestParam("file") MultipartFile file) {
+        String filename = "";
+        try {
+            if(!file.isEmpty()){
+                filename = Long.toString(new Date().getTime()).trim()+file.getOriginalFilename()  ;
+                Files.copy(file.getInputStream(), this.root.resolve(filename));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+        }
+        return ResponseEntity.ok(filename);
+    }
+
 
 }
