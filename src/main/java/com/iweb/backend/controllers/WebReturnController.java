@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/iweb")
-public class webReturnController {
+public class WebReturnController {
 
     @Autowired
     WebsiteService websiteService;
