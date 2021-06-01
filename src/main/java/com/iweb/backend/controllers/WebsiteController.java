@@ -2,6 +2,7 @@ package com.iweb.backend.controllers;
 
 import com.iweb.backend.dto.MessageResponse;
 import com.iweb.backend.dto.TypeResponse;
+import com.iweb.backend.dto.WebsiteData;
 import com.iweb.backend.dto.WebsiteResponse;
 import com.iweb.backend.services.WebsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,18 @@ public class WebsiteController {
 
     }
 
+    @GetMapping("/web/data/{id}")
+    public ResponseEntity<?> getWebsiteData(@PathVariable("id") Long id){
+        if(id == null){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Id is invalid!"));
+        }
+        WebsiteData w = websiteService.getAllWebData(id);
+        return ResponseEntity.ok(w);
+
+    }
+
     @PostMapping("/web")
     public ResponseEntity<?> saveWebsite(@Valid @RequestBody WebsiteResponse w){
         WebsiteResponse web  = websiteService.save(w);
@@ -77,6 +90,42 @@ public class WebsiteController {
 
     }
 
+    @PutMapping("/web/deploy/{id}")
+    public ResponseEntity<?> updateWebsiteDeployData(@Valid @RequestBody WebsiteData w, @PathVariable("id") Long id){
+        if(id == null){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Id is invalid!"));
+        }
+        WebsiteData web  = websiteService.updateWebsiteDeployData(id,w);
+        return ResponseEntity.ok(web);
+
+    }
+
+    @PutMapping("/web/server/{id}")
+    public ResponseEntity<?> updateWebsiteServerData(@Valid @RequestBody WebsiteData w, @PathVariable("id") Long id){
+        if(id == null){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Id is invalid!"));
+        }
+        WebsiteData web  = websiteService.updateWebsiteServerData(id,w);
+        return ResponseEntity.ok(web);
+
+    }
+
+    @PutMapping("/web/peronalized/{id}")
+    public ResponseEntity<?> updateWebsitePreferenceData(@Valid @RequestBody WebsiteData w, @PathVariable("id") Long id){
+        if(id == null){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Id is invalid!"));
+        }
+        WebsiteData web  = websiteService.updateWebsitePersonalizedData(id,w);
+        return ResponseEntity.ok(web);
+
+    }
+
     @RequestMapping(value = "/imageUpload", method = RequestMethod.POST)
     public ResponseEntity<?> saveImage(@RequestParam("file") MultipartFile file) {
         String filename = "";
@@ -89,6 +138,18 @@ public class WebsiteController {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
         return ResponseEntity.ok(filename);
+    }
+
+    @PostMapping("/web/deploy/{id}")
+    public ResponseEntity<?> deployWebsite(@PathVariable("id") Long id){
+        if(id == null){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Id is invalid!"));
+        }
+        WebsiteResponse web  = websiteService.uploadWebsite(id);
+        return ResponseEntity.ok(web);
+
     }
 
 
