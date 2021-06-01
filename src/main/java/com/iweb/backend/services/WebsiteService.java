@@ -48,6 +48,7 @@ public class WebsiteService {
             w.setServerType(web.getServerType());
             w.setBackUps(web.getBackUps());
             w.setType(web.getType());
+            w.setVisits(web.getVisits());
             w.setPreference(web.getPreference());
             websiteResponses.add(w);
         }
@@ -174,6 +175,7 @@ public class WebsiteService {
             myWriter.write(web.getContent());
             myWriter.close();
             web.setUrl("http://localhost/iweb/"+web.getName()+".html");
+            web.setVisits(0);
             websiteRepository.save(web);
             System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {

@@ -16,6 +16,7 @@ public class WebsiteData {
     private String backUps;
     private String type;
     private String preference;
+    private int visits;
 
     public Long getId() {
         return id;
@@ -111,5 +112,13 @@ public class WebsiteData {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getVisits() {
+        return visits;
+    }
+
+    public void setVisits(int visits) {
+        this.visits = visits;
     }
 }

@@ -48,6 +48,9 @@ public class Website {
     @Nullable
     private String url;
 
+    @Nullable
+    private int visits;
+
     public Website(Long id, String name, User user, String type, String content) {
         this.id = id;
         this.name = name;
@@ -178,5 +181,13 @@ public class Website {
 
     public void setUrl(@Nullable String url) {
         this.url = url;
+    }
+
+    public int getVisits() {
+        return visits;
+    }
+
+    public void setVisits(int visits) {
+        this.visits = visits;
     }
 }
