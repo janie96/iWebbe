@@ -4,6 +4,7 @@ import com.iweb.backend.dto.MessageResponse;
 import com.iweb.backend.dto.TypeResponse;
 import com.iweb.backend.dto.WebsiteData;
 import com.iweb.backend.dto.WebsiteResponse;
+import com.iweb.backend.models.Bug;
 import com.iweb.backend.services.WebsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class WebsiteController {
                     .badRequest()
                     .body(new MessageResponse("Error: User is invalid!"));
         }
-        List<WebsiteResponse> w = websiteService.getWebsiteList(user);
+        List<WebsiteData> w = websiteService.getWebsiteList(user);
         return ResponseEntity.ok(w);
 
     }
@@ -149,6 +150,18 @@ public class WebsiteController {
         }
         WebsiteResponse web  = websiteService.uploadWebsite(id);
         return ResponseEntity.ok(web);
+
+    }
+
+    @PostMapping("/web/bug")
+    public ResponseEntity<?> reportBug(@Valid @RequestBody Bug bug){
+        if(bug == null){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Id is invalid!"));
+        }
+        Bug bugResponse  = websiteService.reportBug(bug);
+        return ResponseEntity.ok(bugResponse);
 
     }
 

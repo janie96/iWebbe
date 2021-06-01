@@ -3,8 +3,10 @@ package com.iweb.backend.services;
 import com.iweb.backend.dto.TypeResponse;
 import com.iweb.backend.dto.WebsiteData;
 import com.iweb.backend.dto.WebsiteResponse;
+import com.iweb.backend.models.Bug;
 import com.iweb.backend.models.User;
 import com.iweb.backend.models.Website;
+import com.iweb.backend.repository.BugRepository;
 import com.iweb.backend.repository.UserRepository;
 import com.iweb.backend.repository.WebsiteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +28,28 @@ public class WebsiteService {
     @Autowired
     UserRepository userRepository;
 
-    public List<WebsiteResponse> getWebsiteList(Long user){
+    @Autowired
+    BugRepository bugRepository;
+
+    public List<WebsiteData> getWebsiteList(Long user){
 
         List<Website> websiteList =websiteRepository.findAllByUser(user);
-        List<WebsiteResponse> websiteResponses = new ArrayList<>();
-        for(Website w:websiteList){
-            WebsiteResponse web = new WebsiteResponse();
-            web.setId(w.getId());
-            web.setName(w.getName());
-            web.setType(w.getType());
-            web.setUser(user);
-            web.setContent(w.getContent());
-            websiteResponses.add(web);
+        List<WebsiteData> websiteResponses = new ArrayList<>();
+        for(Website web:websiteList){
+            WebsiteData w = new WebsiteData();
+            w.setId(web.getId());
+            w.setName(web.getName());
+            w.setUser(web.getUser().getId());
+            w.setSearchKeys(web.getSearchKeys());
+            w.setExpectedUsers(web.getExpectedUsers());
+            w.setServerLocation(web.getServerLocation());
+            w.setDomainName(web.getDomainName());
+            w.setContentStorage(web.getContentStorage());
+            w.setServerType(web.getServerType());
+            w.setBackUps(web.getBackUps());
+            w.setType(web.getType());
+            w.setPreference(web.getPreference());
+            websiteResponses.add(w);
         }
         return websiteResponses;
     }
@@ -147,6 +159,11 @@ public class WebsiteService {
         w.setPreference(web.getPreference());
         websiteRepository.save(web);
         return w;
+    }
+
+    public Bug reportBug(Bug bug){
+        bugRepository.save(bug);
+        return bug;
     }
 
     public WebsiteResponse uploadWebsite(Long id){
