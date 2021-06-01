@@ -48,6 +48,7 @@ public class WebsiteService {
             w.setServerType(web.getServerType());
             w.setBackUps(web.getBackUps());
             w.setType(web.getType());
+            w.setUrl(web.getUrl());
             w.setVisits(web.getVisits());
             w.setPreference(web.getPreference());
             websiteResponses.add(w);

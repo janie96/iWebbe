@@ -17,6 +17,7 @@ public class WebsiteData {
     private String type;
     private String preference;
     private int visits;
+    private String url;
 
     public Long getId() {
         return id;
@@ -120,5 +121,13 @@ public class WebsiteData {
 
     public void setVisits(int visits) {
         this.visits = visits;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
